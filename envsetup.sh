@@ -8,9 +8,12 @@ SCRIPT_PATH=$(dirname ${BASH_SOURCE:-$0})
 #  echo "no zsh in use"
 #fi
 
-
 for f in $SCRIPT_PATH/*-activator.sh
 do
-  echo "Processing $f"
+  if [ -n "$DEBUG" ]
+  then
+    echo "Processing $f"
+  fi
   source $f
 done
+unset SCRIPT_PATH
