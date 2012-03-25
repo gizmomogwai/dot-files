@@ -1,0 +1,1 @@
+export PATH=~/bin/java/jdk1.6.0_30/bin:$PATH
