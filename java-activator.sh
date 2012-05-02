@@ -4,5 +4,5 @@ then
   then
     echo "setting java path"
   fi 
-  export PATH=~/bin/java/jdk1.6.0_30/bin:$PATH
+  export PATH=~/bin/java/jdk1.6.0_31/bin:$PATH
 fi

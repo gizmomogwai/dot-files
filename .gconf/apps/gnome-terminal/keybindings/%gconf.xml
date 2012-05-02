@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<gconf>
+	<entry name="reset_and_clear" mtime="1333207834" type="string">
+		<stringvalue>&lt;Control&gt;&lt;Alt&gt;k</stringvalue>
+	</entry>
+</gconf>
