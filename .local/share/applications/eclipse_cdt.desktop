@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Eclipse CDT
+Comment=Eclipse IDE + CDT
+Icon=/home/gizmo/.local/share/applications/solar-eclipse-icon.xpm
+Exec=env UBUNTU_MENUPROXY=0 /home/gizmo/bin/eclipse/4.1.2/cdt/eclipse
+Terminal=false
+Categories=Development;IDE;Java;

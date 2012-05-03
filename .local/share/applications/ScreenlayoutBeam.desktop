@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=ScreenLayoutBeam
+Comment=For Beamer
+Icon=/home/gizmo/.local/share/applications/solar-eclipse-icon.xpm
+Exec=/home/gizmo/.screenlayout/beam.sh
+Terminal=true
+Categories=System

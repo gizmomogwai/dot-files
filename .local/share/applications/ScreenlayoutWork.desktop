@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=ScreenLayoutWork
+Comment=For Work
+Icon=/home/gizmo/.local/share/applications/solar-eclipse-icon.xpm
+Exec=/home/gizmo/.screenlayout/work.sh
+Terminal=true
+Categories=System
