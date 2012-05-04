@@ -44,7 +44,7 @@ dot_files = [
              '.authinfo'
             ]
 if is_linux?
-  dot_files += '.screenlayout'
+  dot_files << '.screenlayout'
 end
 
 dot_files.each do |f|
@@ -58,7 +58,7 @@ dot_files.each do |f|
 end
 
 desc 'reminder to adapt /etc/hosts'
-task :hosts
+task :hosts do
   puts 'please put "173.194.69.109 imap.gmail-alias1.com imap.gmail-alias2.com" into /etc/hosts'
 end
 
@@ -67,5 +67,5 @@ all = dot_files
 if is_linux?
   all += apps + [:gconf]
 end
-all += :hosts
+all << :hosts
 task :install => all
