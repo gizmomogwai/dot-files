@@ -1,7 +1,12 @@
 D = File.dirname(__FILE__)
 H = ENV['HOME']
 
-apps = ['ScreenlayoutBeam', 'ScreenlayoutWork', 'eclipse_adt', 'eclipse_cdt']
+apps = [
+        'ScreenlayoutBeam',
+        'ScreenlayoutWork',
+        'eclipse_adt',
+        'eclipse_cdt'
+       ]
 apps.each do |app|
   file_name = File.join(D, '.local', 'share', 'applications', "#{app}.desktop")
   desc "link #{file_name}"
@@ -19,7 +24,18 @@ task :gconf => KeyboardSettings do
 end
 
 
-dot_files = ['.inputrc', '.gitconfig', '.profile', '.joerc', '.zshrc', '.screenlayout']
+dot_files = [
+             '.inputrc',
+             '.gitconfig',
+             '.profile',
+             '.joerc',
+             '.zshrc',
+             '.screenlayout',
+             '.signature-christian.koestlin@gmail.com',
+             '.signature-christian.koestlin@esrlabs.com',
+             '.msmtprc',
+             '.authinfo'
+            ]
 dot_files.each do |f|
   file_name = File.join(D, f)
   desc "link #{file_name}"
