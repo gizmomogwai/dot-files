@@ -57,9 +57,15 @@ dot_files.each do |f|
   end
 end
 
+desc 'reminder to adapt /etc/hosts'
+task :hosts
+  puts 'please put "173.194.69.109 imap.gmail-alias1.com imap.gmail-alias2.com" into /etc/hosts'
+end
+
 desc 'links the needed files to $HOME'
 all = dot_files
 if is_linux?
   all += apps + [:gconf]
 end
+all += :hosts
 task :install => all
