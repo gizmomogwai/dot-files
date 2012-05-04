@@ -1,28 +1,36 @@
 D = File.dirname(__FILE__)
 H = ENV['HOME']
 
-apps = [
-        'ScreenlayoutBeam',
-        'ScreenlayoutWork',
-        'eclipse_adt',
-        'eclipse_cdt'
-       ]
-apps.each do |app|
-  file_name = File.join(D, '.local', 'share', 'applications', "#{app}.desktop")
-  desc "link #{file_name}"
-  task app do
-    cd H do
-      sh "ln -svf #{file_name}"
+def is_mac?
+  RUBY_PLATFORM.downcase.include?("darwin")
+end
+def is_linux?
+  RUBY_PLATFORM.downcase.include?("linux")
+end
+
+if is_linux?
+  apps = [
+          'ScreenlayoutBeam',
+          'ScreenlayoutWork',
+          'eclipse_adt',
+          'eclipse_cdt'
+         ]
+  apps.each do |app|
+    file_name = File.join(D, '.local', 'share', 'applications', "#{app}.desktop")
+    desc "link #{file_name}"
+    task app do
+      cd H do
+        sh "ln -svf #{file_name}"
+      end
     end
   end
-end
 
-KeyboardSettings = "#{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd"
-directory KeyboardSettings
-task :gconf => KeyboardSettings do
-  sh "ln -sfv #{D}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml #{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml"
+  KeyboardSettings = "#{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd"
+  directory KeyboardSettings
+  task :gconf => KeyboardSettings do
+    sh "ln -sfv #{D}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml #{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml"
+  end
 end
-
 
 dot_files = [
              '.inputrc',
@@ -30,12 +38,15 @@ dot_files = [
              '.profile',
              '.joerc',
              '.zshrc',
-             '.screenlayout',
              '.signature-christian.koestlin@gmail.com',
              '.signature-christian.koestlin@esrlabs.com',
              '.msmtprc',
              '.authinfo'
             ]
+if is_linux?
+  dot_files += '.screenlayout'
+end
+
 dot_files.each do |f|
   file_name = File.join(D, f)
   desc "link #{file_name}"
@@ -47,4 +58,8 @@ dot_files.each do |f|
 end
 
 desc 'links the needed files to $HOME'
-task :install => dot_files + apps + [:gconf]
+all = dot_files
+if is_linux?
+  all += apps + [:gconf]
+end
+task :install => all
