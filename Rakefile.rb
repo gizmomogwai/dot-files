@@ -1,6 +1,24 @@
 D = File.dirname(__FILE__)
 H = ENV['HOME']
 
+MODE = {}
+
+def debug_prefix
+  if MODE[:debug]
+    'echo'
+  else
+    ''
+  end
+end
+
+def get_os
+  if is_mac?
+    return "osx"
+  else
+    return "linux"
+  end
+end
+
 def is_mac?
   RUBY_PLATFORM.downcase.include?("darwin")
 end
@@ -20,7 +38,7 @@ if is_linux?
     desc "link #{file_name}"
     task app do
       cd H do
-        sh "ln -svf #{file_name}"
+        sh "#{debug_prefix} ln -svf #{file_name}"
       end
     end
   end
@@ -28,7 +46,7 @@ if is_linux?
   KeyboardSettings = "#{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd"
   directory KeyboardSettings
   task :gconf => KeyboardSettings do
-    sh "ln -sfv #{D}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml #{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml"
+    sh "#{debug_prefix} ln -sfv #{D}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml #{H}/.gconf/desktop/gnome/peripherals/keyboard/kbd/%gconf.xml"
   end
 end
 
@@ -36,7 +54,7 @@ dot_files = [
              '.inputrc',
              '.gitconfig',
              '.profile',
-             '.joerc',
+             ".joerc-#{get_os}",
              '.zshrc',
              '.signature-christian.koestlin@gmail.com',
              '.signature-christian.koestlin@esrlabs.com',
@@ -47,12 +65,22 @@ if is_linux?
   dot_files << '.screenlayout'
 end
 
+def remove_os(s)
+  file = File.basename(s)
+  h = file.index('-')
+  if h
+    return file[0...h]
+  else
+    return file
+  end
+end
+
 dot_files.each do |f|
   file_name = File.join(D, f)
   desc "link #{file_name}"
   task f do
     cd H do
-      sh "ln -sfv #{file_name}"
+      sh "#{debug_prefix} ln -sfv #{file_name} #{remove_os(file_name)}"
     end
   end
 end
