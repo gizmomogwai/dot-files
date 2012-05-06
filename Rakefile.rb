@@ -95,5 +95,14 @@ all = dot_files
 if is_linux?
   all += apps + [:gconf]
 end
+
 all << :hosts
 task :install => all
+
+desc 'enable debug mode'
+task :enable_debug do
+  MODE[:debug] = true
+end
+
+desc 'print what would be done'
+task :debug => [:enable_debug, :install]
