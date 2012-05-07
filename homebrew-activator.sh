@@ -3,7 +3,7 @@ then
   if [ -n "$DEBUG" ]
   then
     echo "setting homebrew path"
-  fi 
+  fi
   export PATH=~/.homebrew/bin:$PATH
 fi
 
