@@ -1,0 +1,22 @@
+partial modifier_keys
+xkb_symbols "mylayout" {
+  // additional ways to ebene 4
+  replace key <TLDE> {
+    [ NoSymbol, NoSymbol ]
+  };
+  replace key <AD12> {
+    [ NoSymbol, NoSymbol ]
+  };
+  modifier_map Mod3 { <AD12>, <TLDE> };
+
+
+  // meta keys on end and apple
+  replace key <RALT> {
+    [ Super_L, Super_L ]
+  };
+  replace key <END> {
+    [ Super_R, Super_R ]
+  };
+  modifier_map Mod4 { <RALT>, <END> };
+
+};

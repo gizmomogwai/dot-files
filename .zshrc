@@ -1,3 +1,5 @@
+echo "whats up"
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -30,7 +32,6 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git brew rvm gem)
-
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...

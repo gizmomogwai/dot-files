@@ -1,5 +1,7 @@
 if [ "$OSTYPE" = "linux-gnu" ]
 then
-  export PATH=~/bin/java/jdk1.6.0_31/bin:$PATH
-  setxkbmap -option ctrl:nocaps
+  if [ -n "$GNOME_KEYRING_PID" ]; then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+  fi
 fi

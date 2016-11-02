@@ -59,7 +59,8 @@ dot_files = [
              '.signature-christian.koestlin@gmail.com',
              '.signature-christian.koestlin@esrlabs.com',
              '.msmtprc',
-             '.authinfo'
+             '.authinfo',
+             '.mailcap'
             ]
 if is_linux?
   dot_files << '.screenlayout'
@@ -97,12 +98,22 @@ if is_linux?
 end
 
 all << :hosts
+all << :emacs_d
+
 task :install => all
 
 desc 'enable debug mode'
 task :enable_debug do
   MODE[:debug] = true
 end
+
+desc 'link emacs.d config dir'
+task :emacs_d do
+  cd H do
+    sh 'ln -s Dropbox/Documents/_projecst/gizmos_emacs_config_2/.emacs.d'
+  end
+end
+
 
 desc 'print what would be done'
 task :debug => [:enable_debug, :install]

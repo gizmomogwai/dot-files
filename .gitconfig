@@ -2,4 +2,20 @@
 	ui = auto
 [user]
 	name = Christian Köstlin
-	email = christian.koestlin@gmail.com
+	email = christian.koestlin@esrlabs.com
+[review "gerrit"]
+[review "origin"]
+[review "http://gerrit:8081/"]
+	username = ckoestlin
+[github]
+	user = gizmomogwai
+[diff]
+	tool = vimdiff
+#[http]
+#	sslCAInfo=/home/ckoestlin/_projects/tmp/esrlabs.crt
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

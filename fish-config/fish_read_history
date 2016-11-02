@@ -1,0 +1,12 @@
+- cmd: function mdir_to_mav --description 'Copies one directory to monicas itunes'\nif find Downloads/torrents -type d  | fzf >  $TMPDIR/fzf.result\necho sending (cat $TMPDIR/fzf.result) to maverick\nscp -r (cat $TMPDIR/fzf.result) "monica@maverick.local:'/Users/monica/Music/iTunes/iTunes Music/Automatically Add to iTunes'"\nend\nend
+   when: 1426413947
+   paths:
+    - Downloads/torrents
+- cmd: function mfile_to_mav --description 'Copies one file from download/torrents to monicas itunes'\nif find Downloads/torrents -type file  | fzf >  $TMPDIR/fzf.result\necho sending (cat $TMPDIR/fzf.result) to maverick\nscp -r (cat $TMPDIR/fzf.result) "monica@maverick.local:'/Users/monica/Music/iTunes/iTunes Music/Automatically Add to iTunes'"\nend\nend
+   when: 1426413966
+   paths:
+    - Downloads/torrents
+- cmd: y
+   when: 1427218041
+- cmd: y
+   when: 1427218104
