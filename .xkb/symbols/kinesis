@@ -5,10 +5,12 @@ xkb_symbols "mylayout" {
   replace key <TLDE> {
     [ NoSymbol, NoSymbol ]
   };
-  replace key <AD12> {
-    [ NoSymbol, NoSymbol ]
+  replace key <AD99> {
+    type[Group1] = "ONE_LEVEL",
+    symbols[Group1] = [ ISO_Level4_Shift ]
   };
-  modifier_map Mod3 { <AD12>, <TLDE> };
+
+  modifier_map Mod3 { <TLDE> };
 
 
   // meta keys on end and apple

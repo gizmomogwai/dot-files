@@ -5,7 +5,7 @@ default xkb_keycodes "evdev" {
 	maximum = 255;
 
         # Added for pc105 compatibility
-        <LSGT> = 94;
+        <LSGT> = 35;
 
 	<TLDE> = 49;
 	<AE01> = 10;
@@ -34,7 +34,7 @@ default xkb_keycodes "evdev" {
 	<AD09> = 32;
 	<AD10> = 33;
 	<AD11> = 34;
-	<AD12> = 35;
+	#<AD99> = 35;
 	<BKSL> = 51;
 	alias <AC12> = <BKSL>;
 	<RTRN> = 36;

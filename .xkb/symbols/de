@@ -376,6 +376,7 @@ xkb_symbols "neo_base" {
 
     key.type[Group1] = "EIGHT_LEVEL_LEVEL_FIVE_LOCK";
     key <AD12> { [ dead_acute,              dead_tilde,              dead_stroke,             dead_psili,              dead_doubleacute,        NoSymbol,                dead_breve,              NoSymbol                 ] };
+    key <AD99> { [ NoSymbol,              dead_tilde,              dead_stroke,             dead_psili,              dead_doubleacute,        NoSymbol,                dead_breve,              NoSymbol                 ] };
 
     // Middle row
     // --------------------------------------------------------------
