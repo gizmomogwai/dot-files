@@ -1,0 +1,13 @@
+* My kinesis/ergodox x11 keyboard settings
+
+** Links 
+- https://medium.com/@damko/a-simple-humble-but-comprehensive-guide-to-xkb-for-linux-6f1ad5e13450
+- https://hack.org/mc/writings/xkb.html
+- http://www.vinc17.net/unix/xkb.en.html
+- https://vincent.bernat.ch/en/extending-xkb
+- https://www.linux.com/news/creating-custom-keyboard-layouts-x11-using-xkb/
+
+** Debug
+- xev
+- xkbprint -label name $DISPLAY - | gv -orientation=seascape -
+

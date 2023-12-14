@@ -1,5 +1,6 @@
 partial modifier_keys
 xkb_symbols "mylayout" {
+
   // additional ways to ebene 4
   replace key <TLDE> {
     [ NoSymbol, NoSymbol ]
