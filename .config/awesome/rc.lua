@@ -1,3 +1,4 @@
+
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -16,6 +17,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
 local switcher = require("awesome-switcher")
+local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
@@ -53,8 +55,12 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.useless_gap = 4
+
+local bling = require("bling")
 
 -- This is used later as the default terminal and editor to run.
+-- terminal = "wezterm" -- "x-terminal-emulator"
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
@@ -70,6 +76,7 @@ modkey = "Mod4"
 awful.layout.layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile,
+    bling.layout.vertical,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
@@ -81,6 +88,7 @@ awful.layout.layouts = {
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.corner.nw,
+
     -- awful.layout.suit.corner.ne,
     -- awful.layout.suit.corner.sw,
     -- awful.layout.suit.corner.se,
@@ -245,6 +253,7 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+            volume_widget{widget_type = 'horizontal_bar'},
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
@@ -300,14 +309,14 @@ globalkeys = gears.table.join(
               {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
-    -- awful.key({ modkey, "Shift"   }, "r", function () awful.client.swap.byidx(  1)    end,
-    --           {description = "swap with next client by index", group = "client"}),
-    -- awful.key({ modkey, "Shift"   }, "n", function () awful.client.swap.byidx( -1)    end,
-    --           {description = "swap with previous client by index", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "r", function () awful.client.swap.byidx(  1)    end,
+              {description = "swap with next client by index", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "n", function () awful.client.swap.byidx( -1)    end,
+              {description = "swap with previous client by index", group = "client"}),
     awful.key({ modkey, "Shift" }, "n", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey, "Shift" }, "r", function () awful.screen.focus_relative(-1) end,
-              {description = "focus the previous screen", group = "screen"}),
+    -- awful.key({ modkey, "Shift" }, "r", function () awful.screen.focus_relative(-1) end,
+    --           {description = "focus the previous screen", group = "screen"}),
     --awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
     --          {description = "jump to urgent client", group = "client"}),
     awful.key({ modkey,           }, "Tab",
@@ -322,6 +331,8 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
+    awful.key({ modkey, }, "v", function() awful.spawn("copyq show") end,
+              {description = "Open copyq", group = "launcher"}),
     awful.key({ modkey, "Shift" }, "k", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,
@@ -360,7 +371,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey },            "e",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey },            "a",     function () awful.spawn('rofi -show run') end,
-       {description = "run gnome-do", group = "launcher"}),
+       {description = "run rofi", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -418,7 +429,15 @@ clientkeys = gears.table.join(
             c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
         end ,
-        {description = "(un)maximize horizontally", group = "client"})
+        {description = "(un)maximize horizontally", group = "client"}),
+    awful.key({modkey}, "u",
+    function (c)
+        c.left = 0
+        c.top = 0
+        c.width = 1920
+        c.height = 1080
+    end ,
+    {description = "Set window to 1080p", group = "client"})
 )
 
 -- Bind all key numbers to tags.
@@ -618,3 +637,7 @@ os.execute("xautolock -time 4 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
 os.execute("ruby $HOME/Sync/projects/dot-files/setkeyboard.rb &")
 os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
+os.execute("xset r rate 220 60")
+os.execute("copyq &")
+os.execute("$HOME/run_jenkins.sh &")
+

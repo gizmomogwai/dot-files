@@ -1,0 +1,7 @@
+keycode 49 = ISO_Level5_Shift
+keycode 35 = ISO_Level5_Shift
+keycode 108 = Super_L
+keycode 115 = Super_R
+!keycode 94 = Super_L
+!clear mod4
+!add mod4 = ISO_Level5_Shift
