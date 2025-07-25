@@ -16,7 +16,7 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local switcher = require("awesome-switcher")
+--local switcher = require("awesome-switcher")
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 
 -- Enable hotkeys help widget for VIM and other apps
@@ -635,7 +635,7 @@ os.execute("nm-applet &")
 -- os.execute("dropbox start &")
 os.execute("xautolock -time 4 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
-os.execute("ruby $HOME/Sync/projects/dot-files/setkeyboard.rb &")
+os.execute("ruby $HOME/Sync/dot-files/setkeyboard.rb &")
 os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
 os.execute("xset r rate 220 60")
 os.execute("copyq &")
