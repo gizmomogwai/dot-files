@@ -637,7 +637,7 @@ os.execute("xautolock -time 4 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
 os.execute("ruby $HOME/Sync/dot-files/setkeyboard.rb &")
 os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
-os.execute("xset r rate 220 60")
+os.execute("xset r rate 220 70")
 os.execute("copyq &")
 os.execute("$HOME/run_jenkins.sh &")
 
