@@ -16,9 +16,6 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
---local switcher = require("awesome-switcher")
-local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
-
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
@@ -253,7 +250,6 @@ awful.screen.connect_for_each_screen(function(s)
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
-            volume_widget{widget_type = 'horizontal_bar', device = 'default' },
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             wibox.widget.systray(),
@@ -295,15 +291,6 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ "Mod1",           }, "Tab",
-       function ()
-          switcher.switch( 1, "Mod1", "Alt_L", "Shift", "Tab")
-       end),
-
-    awful.key({ "Mod1", "Shift"   }, "Tab",
-       function ()
-          switcher.switch(-1, "Mod1", "Alt_L", "Shift", "Tab")
-       end),
 
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
               {description = "show main menu", group = "awesome"}),
@@ -370,7 +357,7 @@ globalkeys = gears.table.join(
     -- Prompt
     awful.key({ modkey },            "e",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "a",     function () awful.spawn('rofi -show run') end,
+    awful.key({ modkey },            "a",     function () awful.spawn('fish -c "rofi -modes combi -combi-modes run,window,ssh,drun -show combi"') end,
        {description = "run rofi", group = "launcher"}),
 
     awful.key({ modkey }, "x",
@@ -630,14 +617,12 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-
 os.execute("nm-applet &")
 -- os.execute("dropbox start &")
-os.execute("xautolock -time 4 -locker slock &")
+os.execute("xautolock -time 30 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
-os.execute("ruby $HOME/Sync/dot-files/setkeyboard.rb &")
 os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
 -- os.execute("xset r rate 220 70")
 os.execute("copyq &")
 os.execute("$HOME/run_jenkins.sh &")
-
+os.execute("xcape -e 'Control_L=Escape'")
