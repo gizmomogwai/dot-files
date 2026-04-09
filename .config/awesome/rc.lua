@@ -58,7 +58,9 @@ local bling = require("bling")
 
 -- This is used later as the default terminal and editor to run.
 -- terminal = "wezterm" -- "x-terminal-emulator"
-terminal = "x-terminal-emulator"
+-- terminal = "x-terminal-emulator"
+
+terminal = os.getenv("HOME") .. "/.nix-profile/bin/nixGLNvidia-580.126.09 " .. os.getenv("HOME") .. "/.nix-profile/bin/kitty"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -625,4 +627,4 @@ os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
 -- os.execute("xset r rate 220 70")
 os.execute("copyq &")
 os.execute("$HOME/run_jenkins.sh &")
-os.execute("xcape -e 'Control_L=Escape'")
+awful.spawn.once("xcape -e 'Control_L=Escape'")
