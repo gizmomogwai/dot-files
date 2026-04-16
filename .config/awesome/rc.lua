@@ -1,3 +1,4 @@
+-- awesome_mode: api-level=6:screen=on
 
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
@@ -60,7 +61,9 @@ local bling = require("bling")
 -- terminal = "wezterm" -- "x-terminal-emulator"
 -- terminal = "x-terminal-emulator"
 
-terminal = os.getenv("HOME") .. "/.nix-profile/bin/nixGLNvidia-580.126.09 " .. os.getenv("HOME") .. "/.nix-profile/bin/kitty"
+home_dir = os.getenv("HOME")
+nixgl = home_dir .. "/.nix-profile/bin/nixGLNvidia-595.58.03 "
+terminal = nixgl .. home_dir .."/.nix-profile/bin/ghostty"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -361,6 +364,8 @@ globalkeys = gears.table.join(
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey },            "a",     function () awful.spawn('fish -c "rofi -modes combi -combi-modes run,window,ssh,drun -show combi"') end,
        {description = "run rofi", group = "launcher"}),
+    awful.key({ modkey },            "o",     function () awful.spawn('fish -c "vicinae toggle"') end,
+       {description = "run vicinae", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -571,44 +576,44 @@ client.connect_signal("manage", function (c)
 end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
-    -- buttons for the titlebar
-    local buttons = gears.table.join(
-        awful.button({ }, 1, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.move(c)
-        end),
-        awful.button({ }, 3, function()
-            c:emit_signal("request::activate", "titlebar", {raise = true})
-            awful.mouse.client.resize(c)
-        end)
-    )
-
-    awful.titlebar(c) : setup {
-        { -- Left
-            awful.titlebar.widget.iconwidget(c),
-            buttons = buttons,
-            layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-            { -- Title
-                align  = "center",
-                widget = awful.titlebar.widget.titlewidget(c)
-            },
-            buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-            awful.titlebar.widget.floatingbutton (c),
-            awful.titlebar.widget.maximizedbutton(c),
-            awful.titlebar.widget.stickybutton   (c),
-            awful.titlebar.widget.ontopbutton    (c),
-            awful.titlebar.widget.closebutton    (c),
-            layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-    }
-end)
+-- client.connect_signal("request::titlebars", function(c)
+--     -- buttons for the titlebar
+--     local buttons = gears.table.join(
+--         awful.button({ }, 1, function()
+--             c:emit_signal("request::activate", "titlebar", {raise = true})
+--             awful.mouse.client.move(c)
+--         end),
+--         awful.button({ }, 3, function()
+--             c:emit_signal("request::activate", "titlebar", {raise = true})
+--             awful.mouse.client.resize(c)
+--         end)
+--     )
+-- 
+--     awful.titlebar(c) : setup {
+--         { -- Left
+--             awful.titlebar.widget.iconwidget(c),
+--             buttons = buttons,
+--             layout  = wibox.layout.fixed.horizontal
+--         },
+--         { -- Middle
+--             { -- Title
+--                 align  = "center",
+--                 widget = awful.titlebar.widget.titlewidget(c)
+--             },
+--             buttons = buttons,
+--             layout  = wibox.layout.flex.horizontal
+--         },
+--         { -- Right
+--             awful.titlebar.widget.floatingbutton (c),
+--             awful.titlebar.widget.maximizedbutton(c),
+--             awful.titlebar.widget.stickybutton   (c),
+--             awful.titlebar.widget.ontopbutton    (c),
+--             awful.titlebar.widget.closebutton    (c),
+--             layout = wibox.layout.fixed.horizontal()
+--         },
+--         layout = wibox.layout.align.horizontal
+--     }
+-- end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
@@ -623,8 +628,8 @@ os.execute("nm-applet &")
 -- os.execute("dropbox start &")
 os.execute("xautolock -time 30 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
-os.execute("$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox &")
--- os.execute("xset r rate 220 70")
+os.execute("xset r rate 220 60")
+os.execute("xset r rate 220 60")
 os.execute("copyq &")
-os.execute("$HOME/run_jenkins.sh &")
-awful.spawn.once("xcape -e 'Control_L=Escape'")
+os.execute(nixgl .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
+-- os.execute("$HOME/run_jenkins.sh &")
