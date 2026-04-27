@@ -368,8 +368,8 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    -- awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
-    --          {description = "close", group = "client"}),
+     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+              {description = "close", group = "client"}),
     -- awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
     --          {description = "toggle floating", group = "client"}),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,
@@ -607,7 +607,6 @@ os.execute("nm-applet &")
 -- os.execute("dropbox start &")
 os.execute("xautolock -time 30 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
-os.execute("xset r rate 220 60")
 os.execute("xset r rate 220 60")
 os.execute("copyq &")
 os.execute(nixgl() .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
