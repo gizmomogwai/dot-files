@@ -60,12 +60,27 @@ local bling = require("bling")
 -- This is used later as the default terminal and editor to run.
 -- terminal = "wezterm" -- "x-terminal-emulator"
 -- terminal = "x-terminal-emulator"
+local is_intel = nil
+
+awful.spawn.easy_async_with_shell(
+  [[bash -lc 'set -o pipefail; /usr/bin/glxinfo | /usr/bin/grep "OpenGL vendor string: Intel"' ]],
+  function(stdout, stderr, _, exit_code)
+    is_intel = (exit_code == 0)
+  end
+)
 
 home_dir = os.getenv("HOME")
-nixgl = home_dir .. "/.nix-profile/bin/nixGLNvidia-595.58.03 "
-terminal = nixgl .. home_dir .."/.nix-profile/bin/ghostty"
-editor = os.getenv("EDITOR") or "editor"
-editor_cmd = terminal .. " -e " .. editor
+nixgl = function()
+  if is_intel then
+    return home_dir .. "/.nix-profile/bin/nixGLIntel"
+  else
+    return home_dir .. "/.nix-profile/bin/nixGLNvidia-595.58.03"
+  end
+end
+
+terminal = function()
+  return nixgl() .. " " .. home_dir .. "/.nix-profile/bin/ghostty"
+end
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -110,42 +125,6 @@ local function client_menu_toggle_fn()
         end
     end
 end
--- }}}
-
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end },
-}
-
-local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { "open terminal", terminal }
-
-if has_fdo then
-    mymainmenu = freedesktop.menu.build({
-        before = { menu_awesome },
-        after =  { menu_terminal }
-    })
-else
-    mymainmenu = awful.menu({
-        items = {
-                  menu_awesome,
-                  { "Debian", debian.menu.Debian_menu.Debian },
-                  menu_terminal,
-                }
-    })
-end
-
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 -- Keyboard map indicator and switcher
@@ -321,7 +300,7 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal()) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, }, "v", function() awful.spawn("copyq show") end,
               {description = "Open copyq", group = "launcher"}),
@@ -631,5 +610,5 @@ os.execute("xautolock -time 30 -locker slock &")
 os.execute("xset r rate 220 60")
 os.execute("xset r rate 220 60")
 os.execute("copyq &")
-os.execute(nixgl .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
+os.execute(nixgl() .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
 -- os.execute("$HOME/run_jenkins.sh &")
