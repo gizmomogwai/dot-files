@@ -60,12 +60,24 @@ local bling = require("bling")
 -- This is used later as the default terminal and editor to run.
 -- terminal = "wezterm" -- "x-terminal-emulator"
 -- terminal = "x-terminal-emulator"
-local is_intel = nil
 
+is_intel = nil
 awful.spawn.easy_async_with_shell(
   [[bash -lc 'set -o pipefail; /usr/bin/glxinfo | /usr/bin/grep "OpenGL vendor string: Intel"' ]],
   function(stdout, stderr, _, exit_code)
     is_intel = (exit_code == 0)
+    -- naughty.notify({ title = "is intel", text = string.format("%s", is_intel) })
+  end
+)
+
+nixgl_nvidia = nil
+awful.spawn.easy_async_with_shell(
+  [[bash -lc 'set -o pipefail; /usr/bin/ls $HOME/.nix-profile/bin/nixGLNvidia* | /usr/bin/grep -v @' ]],
+  function(stdout, stderr, _, exit_code)
+    if exit_code == 0 then
+      nixgl_nvidia = stdout:gsub("\n", "")
+      -- naughty.notify({ title = "nixGLNvidia", text = nixgl_nvidia })
+    end
   end
 )
 
@@ -74,7 +86,7 @@ nixgl = function()
   if is_intel then
     return home_dir .. "/.nix-profile/bin/nixGLIntel"
   else
-    return home_dir .. "/.nix-profile/bin/nixGLNvidia-595.58.03"
+    return nixgl_nvidia
   end
 end
 
@@ -609,5 +621,5 @@ os.execute("xautolock -time 30 -locker slock &")
 -- os.execute("bash -c $HOME/.screenlayout/work.sh &")
 os.execute("xset r rate 220 60")
 os.execute("copyq &")
-os.execute(nixgl() .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
+-- os.execute(nixgl() .. "/home/christian-koestlin/.nix-profile/bin/vicinae server --open --replace &")
 -- os.execute("$HOME/run_jenkins.sh &")
