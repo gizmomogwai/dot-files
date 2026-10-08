@@ -57,41 +57,9 @@ beautiful.useless_gap = 4
 
 local bling = require("bling")
 
--- This is used later as the default terminal and editor to run.
--- terminal = "wezterm" -- "x-terminal-emulator"
--- terminal = "x-terminal-emulator"
-
-is_intel = nil
-awful.spawn.easy_async_with_shell(
-  [[bash -lc 'set -o pipefail; /usr/bin/glxinfo | /usr/bin/grep "OpenGL vendor string: Intel"' ]],
-  function(stdout, stderr, _, exit_code)
-    is_intel = (exit_code == 0)
-    -- naughty.notify({ title = "is intel", text = string.format("%s", is_intel) })
-  end
-)
-
-nixgl_nvidia = nil
-awful.spawn.easy_async_with_shell(
-  [[bash -lc 'set -o pipefail; /usr/bin/ls $HOME/.nix-profile/bin/nixGLNvidia* | /usr/bin/grep -v @' ]],
-  function(stdout, stderr, _, exit_code)
-    if exit_code == 0 then
-      nixgl_nvidia = stdout:gsub("\n", "")
-      -- naughty.notify({ title = "nixGLNvidia", text = nixgl_nvidia })
-    end
-  end
-)
-
 home_dir = os.getenv("HOME")
-nixgl = function()
-  if is_intel then
-    return home_dir .. "/.nix-profile/bin/nixGLIntel"
-  else
-    return nixgl_nvidia
-  end
-end
-
 terminal = function()
-  return nixgl() .. " " .. home_dir .. "/.nix-profile/bin/ghostty"
+  return home_dir .. "/.nix-profile/bin/nixGL" .. " " .. home_dir .. "/.nix-profile/bin/ghostty"
 end
 
 -- Default modkey.
@@ -351,12 +319,10 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "e",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "a",     function () awful.spawn('fish -c "rofi -modes combi -combi-modes run,window,ssh,drun -show combi"') end,
+    -- awful.key({ modkey },            "e",     function () awful.screen.focused().mypromptbox:run() end,
+    --          {description = "run prompt", group = "launcher"}),
+    awful.key({ modkey },            "a",     function () awful.spawn('fish -c "~/.nix-profile/bin/rofi -modes combi -combi-modes run,window,ssh,drun -show combi"') end,
        {description = "run rofi", group = "launcher"}),
-    awful.key({ modkey },            "o",     function () awful.spawn('fish -c "vicinae toggle"') end,
-       {description = "run vicinae", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
