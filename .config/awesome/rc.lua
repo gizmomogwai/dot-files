@@ -57,11 +57,6 @@ beautiful.useless_gap = 4
 
 local bling = require("bling")
 
-home_dir = os.getenv("HOME")
-terminal = function()
-  return home_dir .. "/.nix-profile/bin/nixGL" .. " " .. home_dir .. "/.nix-profile/bin/ghostty"
-end
-
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -280,7 +275,7 @@ globalkeys = gears.table.join(
         {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal()) end,
+    awful.key({ modkey,           }, "Return", function () awful.spawn("ghostty") end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, }, "v", function() awful.spawn("copyq show") end,
               {description = "Open copyq", group = "launcher"}),
@@ -321,8 +316,15 @@ globalkeys = gears.table.join(
     -- Prompt
     -- awful.key({ modkey },            "e",     function () awful.screen.focused().mypromptbox:run() end,
     --          {description = "run prompt", group = "launcher"}),
-    awful.key({ modkey },            "a",     function () awful.spawn('fish -c "~/.nix-profile/bin/rofi -modes combi -combi-modes run,window,ssh,drun -show combi"') end,
-       {description = "run rofi", group = "launcher"}),
+    awful.key({ modkey }, "a",
+      function () awful.spawn("rofi -modes combi -combi-modes run,window,ssh,drun -show combi") end,
+      { description = "run rofi", group = "launcher" }),
+    awful.key({ modkey }, "b",
+      function () awful.spawn("start-bookmark") end,
+      { description = "run bookmark selector", group = "launcher" }),
+    awful.key({ modkey }, "t",
+      function () awful.spawn("emacs ~/ESRLabs/todo.org") end,
+      { description = "run emacs with my todos", group = "launcher" }),
 
     awful.key({ modkey }, "x",
               function ()
